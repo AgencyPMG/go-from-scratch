@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+CLI_DIRECTORY="./app/internal/cli"
+
+build_go_binary () {
+    package="$1"
+    shift
+
+    go build ${@} "$CLI_DIRECTORY/$package"
+}
+
+build_go_binary $1

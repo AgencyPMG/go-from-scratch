@@ -1,2 +1,2 @@
 # go-from-scratch
-A public working example of how to mange a Golang web application.
+A public working example of how to build a Golang web application.

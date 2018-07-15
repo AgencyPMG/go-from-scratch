@@ -1,2 +1,5 @@
 #Ignore executables.
 gfsweb
+
+#Ignore Golang dependencies.
+vendor

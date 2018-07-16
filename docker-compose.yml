@@ -1,0 +1,13 @@
+version: "2"
+
+services:
+  postgres:
+    image: postgres:9.5.4
+    environment:
+      - POSTGRES_USER=gfsapp
+      - POSTGRES_PASSWORD=password
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./var/data:/var/lib/postgresql/data
+    ports:
+      - "8082:5432"

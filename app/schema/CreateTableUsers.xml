@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ChangeSet id="20180716.1" name="CreateTableUsers">
+    <RawSql>
+        <Up>
+            <Stmt>
+                CREATE TABLE users (
+                    id UUID NOT NULL,
+                    email VARCHAR(128) NOT NULL UNIQUE,
+                    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                    updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                    enabled BOOLEAN NOT NULL,
+                    PRIMARY KEY (id)
+                )
+            </Stmt>
+        </Up>
+        <Down>
+            <Stmt>
+                DROP TABLE users
+            </Stmt>
+        </Down>
+    </RawSql>
+</ChangeSet>

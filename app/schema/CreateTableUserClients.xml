@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ChangeSet id="20180716.3" name="CreateTableUserClients">
+    <RawSql>
+        <Up>
+            <Stmt>
+                CREATE TABLE user_clients (
+                    user_id UUID NOT NULL,
+                    client_id UUID NOT NULL,
+                    PRIMARY KEY (user_id, client_id),
+                    FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
+                    FOREIGN KEY (client_id) REFERENCES clients(id) ON UPDATE CASCADE ON DELETE CASCADE
+                )
+            </Stmt>
+        </Up>
+        <Down>
+            <Stmt>
+                DROP TABLE user_clients
+            </Stmt>
+        </Down>
+    </RawSql>
+</ChangeSet>

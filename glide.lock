@@ -1,8 +1,14 @@
-hash: 66010e04701f39d46962b33dbd5398f6ad92d375ee7bc8681531e18a68938c03
-updated: 2018-07-16T10:02:07.276979684-05:00
+hash: 11ed2562a0e2f732203f409ffe020b61d6e522d71de61e9f9421761334b0b209
+updated: 2018-07-16T16:52:46.874386817-05:00
 imports:
 - name: github.com/gogolfing/cbus
   version: aa9229165f6c77bbdc9e2f4b845c1374619e31fd
+- name: github.com/gogolfing/config
+  version: d7382415fa6dd12f62a54063b607a7ec1f164282
 - name: github.com/google/uuid
   version: 064e2069ce9c359c118179501254f67d7d37ba24
+- name: github.com/lib/pq
+  version: 90697d60dd844d5ef6ff15135d0203f65d2f53b8
+  subpackages:
+  - oid
 testImports: []

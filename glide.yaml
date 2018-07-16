@@ -1,6 +1,11 @@
 package: github.com/AgencyPMG/go-from-scratch
+excludeDirs:
+- var
 import:
 - package: github.com/google/uuid
   version: ~0.2.0
 - package: github.com/gogolfing/cbus
   version: ~3.1.0
+- package: github.com/gogolfing/config
+  version: ~1.2.3
+- package: github.com/lib/pq

@@ -2,12 +2,12 @@ package sqlrepo
 
 import "fmt"
 
-var _ Dialect = PostgresDialect{} //Ensure PostgresDialect{} is a Dialect.
+var _ Dialect = PostgresqlDialect{} //Ensure PostgresqlDialect{} is a Dialect.
 
-//PostgresDialect is a Dialect that understands the Postgresql DBMS.
-type PostgresDialect struct{}
+//PostgresqlDialect is a Dialect that understands the Postgresql DBMS.
+type PostgresqlDialect struct{}
 
 //Placeholder is the Dialect implementation.
-func (p PostgresDialect) Placeholder(index int) string {
+func (p PostgresqlDialect) Placeholder(index int) string {
 	return fmt.Sprintf("$%d", index+1)
 }

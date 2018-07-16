@@ -15,7 +15,7 @@ type QueryRepo interface {
 	List(ctx context.Context) ([]*Client, error)
 
 	//ListById should return all Clients whose Id is in ids.
-	ListById(ctx context.Context, ids []data.Id) ([]*Client, error)
+	ListByIds(ctx context.Context, ids []data.Id) ([]*Client, error)
 }
 
 //Repo provides methods for retrieving and manipulating Clients.

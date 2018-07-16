@@ -32,8 +32,8 @@ func (r *Repo) ExecContext(ctx context.Context, query string, args ...interface{
 }
 
 //Begin starts a transaction in r.
-func (r *Repo) Begin() (Tx, error) {
-	return r.db.Begin()
+func (r *Repo) BeginContext(ctx context.Context) (Tx, error) {
+	return r.db.BeginTx(ctx, nil)
 }
 
 //TxWorkContext executes work inside of a transaction with ctx with committing and

@@ -14,6 +14,12 @@ type QueryRepo interface {
 	//attempting to load the User.
 	Get(ctx context.Context, id data.Id) (*User, error)
 
+	//GetEmail should return the User whose Email equals email.
+	//
+	//An error should be returned if the User does not exist or there was an error
+	//attempting to load the User.
+	GetEmail(ctx context.Context, email string) (*User, error)
+
 	//List should return all Users in the application.
 	//They should be sorted by their lexicographic Email order.
 	List(ctx context.Context) ([]*User, error)

@@ -1,6 +1,7 @@
 package user
 
 import (
+	"context"
 	"time"
 
 	"github.com/AgencyPMG/go-from-scratch/app/internal/data"
@@ -36,11 +37,11 @@ type QueryRepo interface {
 	//
 	//An error should be returned if the User does not exist or there was an error
 	//attempting to load the User.
-	Get(id data.Id) (*User, error)
+	Get(ctx context.Context, id data.Id) (*User, error)
 
 	//List should return all Users in the application.
 	//They should be sorted by their lexicographic Email order.
-	List() ([]*User, error)
+	List(ctx context.Context) ([]*User, error)
 }
 
 //Repo provides method for creating and updating Users
@@ -50,9 +51,9 @@ type Repo interface {
 	QueryRepo
 
 	//Add should add u to the underlying storage repository.
-	Add(u User) error
+	Add(ctx context.Context, u User) error
 
 	//Set should update all stored fields of u in the underlying storage repository.
 	//The update should use u.Id for determining which entity to update.
-	Set(u User) error
+	Set(ctx context.Context, u User) error
 }

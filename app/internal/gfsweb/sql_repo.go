@@ -23,8 +23,10 @@ func CreateSQLRepo(config *config.Config) (*sqlrepo.Repo, io.Closer, error) {
 		SQLDatasourceName,
 		config.GetString(ConfigKeyDatabaseURL),
 	)
-
 	if err != nil {
+		return nil, nil, err
+	}
+	if err := db.Ping(); err != nil {
 		return nil, nil, err
 	}
 

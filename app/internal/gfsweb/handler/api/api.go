@@ -25,6 +25,7 @@ type API struct {
 func (a *API) Handler() http.Handler {
 	router := mux.NewRouter()
 
+	//User routes.
 	router.HandleFunc("/users", a.listUsers).
 		Methods(http.MethodGet)
 
@@ -36,6 +37,22 @@ func (a *API) Handler() http.Handler {
 
 	router.HandleFunc("/users/{"+routeParamUserId+"}", a.updateUser).
 		Methods(http.MethodPatch)
+
+	//Client routes.
+	router.HandleFunc("/clients", a.listClients).
+		Methods(http.MethodGet)
+
+	router.HandleFunc("/clients", a.createClient).
+		Methods(http.MethodPost)
+
+	router.HandleFunc("/clients/{"+routeParamClientId+"}", a.getClient).
+		Methods(http.MethodGet)
+
+	router.HandleFunc("/clients/{"+routeParamClientId+"}", a.updateClient).
+		Methods(http.MethodPatch)
+
+	router.HandleFunc("/clients/{"+routeParamClientId+"}", a.deleteClient).
+		Methods(http.MethodDelete)
 
 	return router
 }

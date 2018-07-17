@@ -21,12 +21,18 @@ func Users(v interface{}) interface{} {
 func User(v interface{}) interface{} {
 	user := v.(*user.User)
 
+	clientIds := user.ClientIds
+	if clientIds == nil {
+		clientIds = []data.Id{}
+	}
+
 	return &UserOutput{
 		Id:        user.Id,
 		Email:     user.Email,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
 		Enabled:   user.Enabled,
+		ClientIds: clientIds,
 	}
 }
 
@@ -36,6 +42,7 @@ type UserOutput struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Enabled   bool      `json:"enabled"`
+	ClientIds []data.Id `json:"client_ids"`
 }
 
 type CreateUser struct {

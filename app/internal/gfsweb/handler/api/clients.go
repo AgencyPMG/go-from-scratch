@@ -32,7 +32,7 @@ func (a *API) listClients(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *API) createClient(w http.ResponseWriter, r *http.Request) {
-	f := dto.CreateClient{}
+	f := &dto.CreateClient{}
 	if ok := a.parseForm(w, r, f); !ok {
 		return
 	}
@@ -46,7 +46,7 @@ func (a *API) createClient(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *API) updateClient(w http.ResponseWriter, r *http.Request) {
-	clientId, ok := a.idFrom(w, r, routeParamUserId)
+	clientId, ok := a.idFrom(w, r, routeParamClientId)
 	if !ok {
 		return
 	}
@@ -93,6 +93,8 @@ func (a *API) getClientEntity(w http.ResponseWriter, r *http.Request) (*client.C
 
 	client, err := a.Clients.Get(r.Context(), clientId)
 	if err != nil {
+		//Again, we can examine the error the see what type of status to send.
+		a.sendError(w, err, http.StatusInternalServerError)
 		return nil, false
 	}
 

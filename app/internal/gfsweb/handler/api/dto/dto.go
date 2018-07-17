@@ -4,6 +4,7 @@ import (
 	"errors"
 	"reflect"
 
+	"github.com/AgencyPMG/go-from-scratch/app/internal/data/client"
 	"github.com/AgencyPMG/go-from-scratch/app/internal/data/user"
 )
 
@@ -17,6 +18,9 @@ func init() {
 	typeMap = map[reflect.Type]TransformerFunc{
 		reflect.TypeOf([]*user.User{}): Users,
 		reflect.TypeOf(&user.User{}):   User,
+
+		reflect.TypeOf([]*client.Client{}): Clients,
+		reflect.TypeOf(&client.Client{}):   Client,
 	}
 }
 

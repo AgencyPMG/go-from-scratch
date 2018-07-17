@@ -40,8 +40,7 @@ func (r *Repo) Get(ctx context.Context, id data.Id) (*client.Client, error) {
 }
 
 func (r *Repo) List(ctx context.Context) ([]*client.Client, error) {
-	query := fmt.Sprintf("%s ORDER BY c.name ASC", SelectFrom)
-	query = orderQuery(query)
+	query := orderQuery(SelectFrom)
 	clients, err := r.list(ctx, query)
 
 	return clients, err

@@ -20,15 +20,15 @@ func New(db *sql.DB, d Dialect) *Repo {
 }
 
 func (r *Repo) QueryContext(ctx context.Context, query string, args ...interface{}) (*sql.Rows, error) {
-	return r.db.QueryContext(ctx, query, args...)
+	return r.db.QueryContext(ctx, Normalize(r.d, query), args...)
 }
 
 func (r *Repo) QueryRowContext(ctx context.Context, query string, args ...interface{}) *sql.Row {
-	return r.db.QueryRowContext(ctx, query, args...)
+	return r.db.QueryRowContext(ctx, Normalize(r.d, query), args...)
 }
 
 func (r *Repo) ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error) {
-	return r.db.ExecContext(ctx, query, args...)
+	return r.db.ExecContext(ctx, Normalize(r.d, query), args...)
 }
 
 //Begin starts a transaction in r.

@@ -38,7 +38,7 @@ func ParseIdBytes(b []byte) (Id, error) {
 
 func parseResult(uuid uuid.UUID, err error) (Id, error) {
 	if err == nil {
-		if uuid.Version() == 4 {
+		if uuid.Version() != 4 {
 			err = ErrWrongVersion
 		}
 	}

@@ -1,12 +1,16 @@
-hash: 11ed2562a0e2f732203f409ffe020b61d6e522d71de61e9f9421761334b0b209
-updated: 2018-07-16T16:52:46.874386817-05:00
+hash: 110a2dc1d7fcbc2088316a308674295881ed1bcff7718bd674a505d4cd6da21e
+updated: 2018-07-16T17:53:21.064853279-05:00
 imports:
 - name: github.com/gogolfing/cbus
   version: aa9229165f6c77bbdc9e2f4b845c1374619e31fd
 - name: github.com/gogolfing/config
   version: d7382415fa6dd12f62a54063b607a7ec1f164282
+  subpackages:
+  - loaders/env
 - name: github.com/google/uuid
   version: 064e2069ce9c359c118179501254f67d7d37ba24
+- name: github.com/gorilla/mux
+  version: e3702bed27f0d39777b0b37b664b6280e8ef8fbf
 - name: github.com/lib/pq
   version: 90697d60dd844d5ef6ff15135d0203f65d2f53b8
   subpackages:

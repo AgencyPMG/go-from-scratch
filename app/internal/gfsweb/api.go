@@ -6,5 +6,9 @@ import (
 )
 
 func CreateAPI(bus *cbus.Bus, repos *Repos) *api.API {
-	return &api.API{}
+	return &api.API{
+		Bus:     bus,
+		Users:   repos.Users,
+		Clients: repos.Clients,
+	}
 }

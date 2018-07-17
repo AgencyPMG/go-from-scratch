@@ -31,10 +31,10 @@ func (a *API) Handler() http.Handler {
 	router.HandleFunc("/users", a.createUser).
 		Methods(http.MethodPost)
 
-	router.HandleFunc("/users/{user_id}", a.getUser).
+	router.HandleFunc("/users/{"+routeParamUserId+"}", a.getUser).
 		Methods(http.MethodGet)
 
-	router.HandleFunc("/users/{user_id}", a.updateUser).
+	router.HandleFunc("/users/{"+routeParamUserId+"}", a.updateUser).
 		Methods(http.MethodPatch)
 
 	return router

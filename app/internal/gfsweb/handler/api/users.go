@@ -8,6 +8,10 @@ import (
 	"github.com/AgencyPMG/go-from-scratch/app/internal/gfsweb/handler/api/dto"
 )
 
+const (
+	routeParamUserId = "user_id"
+)
+
 func (a *API) getUser(w http.ResponseWriter, r *http.Request) {
 	user, ok := a.getUserEntity(w, r)
 	if !ok {
@@ -41,18 +45,13 @@ func (a *API) createUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user, err := a.Bus.ExecuteContext(r.Context(), command)
-	if err != nil {
-		a.sendError(w, err, http.StatusInternalServerError) //TODO note here for correct status code.
-		return
-	}
-
-	a.sendData(w, user, http.StatusCreated)
+	a.userCommandResponse(w, user, err, http.StatusCreated)
 }
 
 func (a *API) updateUser(w http.ResponseWriter, r *http.Request) {
 	f := &dto.UpdateUser{}
 
-	id, _ := a.idFrom(w, r, "user_id")
+	id, _ := a.idFrom(w, r, routeParamUserId)
 
 	if ok := a.parseForm(w, r, f); !ok {
 		return
@@ -66,16 +65,20 @@ func (a *API) updateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user, err := a.Bus.ExecuteContext(r.Context(), command)
+	a.userCommandResponse(w, user, err, http.StatusOK)
+}
+
+func (a *API) userCommandResponse(w http.ResponseWriter, result interface{}, err error, okStatus int) {
 	if err != nil {
-		a.sendError(w, err, http.StatusInternalServerError) //TODO note here for correct status code.
+		//We would normally inspect the error to figure out what status code to send.
+		a.sendError(w, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.sendData(w, user, http.StatusCreated)
+	a.sendData(w, result, okStatus)
 }
 
 func (a *API) getUserEntity(w http.ResponseWriter, r *http.Request) (*user.User, bool) {
-	id, ok := a.idFrom(w, r, "user_id")
+	id, ok := a.idFrom(w, r, routeParamUserId)
 	if !ok {
 		return nil, ok
 	}

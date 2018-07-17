@@ -12,10 +12,14 @@ import (
 var _ user.Repo = &Repo{} //Ensure *Repo is a user.Repo.
 
 const (
-	Table            = "users"
+	//Table is the table we query from to get our user entities.
+	Table = "users"
+
+	//TableUserClients is the table for our user, client relationships.
 	TableUserClients = "user_clients"
 )
 
+//SelectFrom is our select query without filtering, ordering, etc.
 const SelectFrom = `SELECT
 	u.id,
 	u.email,
@@ -24,18 +28,22 @@ const SelectFrom = `SELECT
 	u.enabled
 	FROM ` + Table + ` AS u`
 
+//SelectFromUserClients is our select query for user, client relationships.
 const SelectFromUserClients = `SELECT user_id, client_id FROM ` + TableUserClients
 
+//Repo is a user.Repo implementation that uses a SQL database as its storage.
 type Repo struct {
 	db *sqlrepo.Repo
 }
 
+//New returns a new Repo that uses repo to talk to the database.
 func New(repo *sqlrepo.Repo) *Repo {
 	return &Repo{
 		db: repo,
 	}
 }
 
+//Get is the user.QueryRepo implementation.
 func (r *Repo) Get(ctx context.Context, id data.Id) (*user.User, error) {
 	return r.get(
 		ctx,
@@ -44,6 +52,7 @@ func (r *Repo) Get(ctx context.Context, id data.Id) (*user.User, error) {
 	)
 }
 
+//GetEmail is the user.QueryRepo implementation.
 func (r *Repo) GetEmail(ctx context.Context, email string) (*user.User, error) {
 	return r.get(
 		ctx,
@@ -52,6 +61,7 @@ func (r *Repo) GetEmail(ctx context.Context, email string) (*user.User, error) {
 	)
 }
 
+//get is a helper method to get a user from an independent get query.
 func (r *Repo) get(ctx context.Context, query string, args ...interface{}) (*user.User, error) {
 	row := r.db.QueryRowContext(ctx, query, args...)
 	u, err := scan(row)
@@ -64,6 +74,7 @@ func (r *Repo) get(ctx context.Context, query string, args ...interface{}) (*use
 	return u, err
 }
 
+//List is the user.QueryRepo implementation.
 func (r *Repo) List(ctx context.Context) ([]*user.User, error) {
 	rows, err := r.db.QueryContext(
 		ctx,
@@ -90,6 +101,7 @@ func (r *Repo) List(ctx context.Context) ([]*user.User, error) {
 	return result, rows.Err()
 }
 
+//scan is a helper function to scan a single User entity from a sql row or rows.
 func scan(s sqlrepo.Scanner) (*user.User, error) {
 	user := &user.User{}
 
@@ -110,6 +122,10 @@ func scan(s sqlrepo.Scanner) (*user.User, error) {
 	return user, nil
 }
 
+//populateCilentIds is a helper method to populate all client ids on all users
+//in users.
+//
+//It should be called with all available users to avoid the N+1 problem.
 func (r *Repo) populateClientIds(ctx context.Context, users []*user.User) error {
 	if len(users) == 0 {
 		return nil
@@ -152,6 +168,7 @@ func scanUserIdClientId(s sqlrepo.Scanner) (data.Id, data.Id, error) {
 	return userId, clientId, err
 }
 
+//Add is the user.Repo implementation.
 func (r *Repo) Add(ctx context.Context, user user.User) error {
 	work := func(qec sqlrepo.QueryExecerContext) error {
 		_, err := qec.ExecContext(
@@ -181,6 +198,7 @@ func (r *Repo) Add(ctx context.Context, user user.User) error {
 	return r.db.TxWorkContext(ctx, work)
 }
 
+//Set is the user.Repo implementation.
 func (r *Repo) Set(ctx context.Context, user user.User) error {
 	work := func(qec sqlrepo.QueryExecerContext) error {
 		_, err := qec.ExecContext(
@@ -209,6 +227,8 @@ func (r *Repo) Set(ctx context.Context, user user.User) error {
 	return r.db.TxWorkContext(ctx, work)
 }
 
+//saveClientIds is a helper function to do a full update of client ids for a
+//single user.
 func saveClientIds(qec sqlrepo.QueryExecerContext, ctx context.Context, user user.User) error {
 	if err := removeClientIds(qec, ctx, user); err != nil {
 		return err
@@ -216,6 +236,7 @@ func saveClientIds(qec sqlrepo.QueryExecerContext, ctx context.Context, user use
 	return setClientIds(qec, ctx, user)
 }
 
+//removeClientIds removes all client ids for user.
 func removeClientIds(qec sqlrepo.QueryExecerContext, ctx context.Context, user user.User) error {
 	_, err := qec.ExecContext(
 		ctx,
@@ -225,6 +246,7 @@ func removeClientIds(qec sqlrepo.QueryExecerContext, ctx context.Context, user u
 	return err
 }
 
+//setClientIds adds all client ids for user.
 func setClientIds(qec sqlrepo.QueryExecerContext, ctx context.Context, user user.User) error {
 	if len(user.ClientIds) == 0 {
 		return nil

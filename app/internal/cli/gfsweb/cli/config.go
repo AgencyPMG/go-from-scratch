@@ -8,6 +8,8 @@ import (
 	"github.com/gogolfing/config/loaders/env"
 )
 
+//newConfig returns a Config that uses only those environment variables prefixed
+//with EnvPrefix as keys.
 func newConfig() (*config.Config, error) {
 	c := config.New()
 	c.KeyParser = config.PeriodSeparatorKeyParser

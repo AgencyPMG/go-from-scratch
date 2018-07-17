@@ -8,6 +8,8 @@ import (
 	"github.com/AgencyPMG/go-from-scratch/app/internal/gfsweb"
 )
 
+//Main is the the entrypoint client code can use to invoke gfsweb as if
+//it were entered through the command line.
 func Main(ctx context.Context, _ []string, _ io.Reader, _, outErr io.Writer) int {
 	err := main(ctx)
 
@@ -19,15 +21,13 @@ func Main(ctx context.Context, _ []string, _ io.Reader, _, outErr io.Writer) int
 	return 0
 }
 
+//main buils and runs a gfsweb.App with ctx.
+//An error is returned either from building or running the application.
 func main(ctx context.Context) error {
 	c, err := newConfig()
 	if err != nil {
 		return err
 	}
-
-	// c.Values().EachKeyValue(func(key config.Key, value interface{}) {
-	// 	fmt.Println(key, value)
-	// })
 
 	ab := gfsweb.NewAppBuilder()
 

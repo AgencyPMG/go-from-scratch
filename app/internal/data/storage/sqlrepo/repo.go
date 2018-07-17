@@ -5,6 +5,7 @@ import (
 	"database/sql"
 )
 
+//Repo provides utility methods to help working with the SQL package.
 type Repo struct {
 	db *sql.DB
 
@@ -19,19 +20,28 @@ func New(db *sql.DB, d Dialect) *Repo {
 	}
 }
 
+//QueryContext is the QueryerContext implementation.
+//It calls QueryContext on r's underlying sql.DB.
 func (r *Repo) QueryContext(ctx context.Context, query string, args ...interface{}) (*sql.Rows, error) {
 	return r.db.QueryContext(ctx, Normalize(r.d, query), args...)
 }
 
+//QueryRowContext is the QueryerContext implementation.
+//It calls QueryRowContext on r's underlying sql.DB.
 func (r *Repo) QueryRowContext(ctx context.Context, query string, args ...interface{}) *sql.Row {
 	return r.db.QueryRowContext(ctx, Normalize(r.d, query), args...)
 }
 
+//ExecContext is the QueryExecerContext implementation.
+//It calls ExecContext on r's underlying sql.DB.
 func (r *Repo) ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error) {
 	return r.db.ExecContext(ctx, Normalize(r.d, query), args...)
 }
 
-//Begin starts a transaction in r.
+//BeginContext starts a transaction in r.
+//The interface returned wraps the QueryExecerContext and the necessary
+//methods on the sql.Tx type.
+//it calls BeginTx on r's underlying sql.DB.
 func (r *Repo) BeginContext(ctx context.Context) (Tx, error) {
 	return r.db.BeginTx(ctx, nil)
 }

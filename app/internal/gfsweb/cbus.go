@@ -8,6 +8,7 @@ import (
 	"github.com/gogolfing/cbus"
 )
 
+//CreateCBus returns a new cbus.Bus with user and client commands registered on it.
 func CreateCBus(repos *Repos) *cbus.Bus {
 	bus := &cbus.Bus{}
 

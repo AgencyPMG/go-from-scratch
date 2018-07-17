@@ -10,14 +10,22 @@ import (
 	"github.com/gogolfing/config"
 )
 
+//SQLRepoFactory is a function type that creates a new sqlrepo.Reop and a related
+//io.Closer that should close the connection to the database.
 type SQLRepoFactory func(config *config.Config) (*sqlrepo.Repo, io.Closer, error)
 
+//CBusFactory is a function type that creates a new cbus.Bus will all required
+//Commands and Handlers correctly registered.
 type CBusFactory func(repos *Repos) *cbus.Bus
 
+//APIFactory is a function type that creates a new API ready for use.
 type APIFactory func(bus *cbus.Bus, repos *Repos) *api.API
 
+//ServerFactory is a function type that creates a new server.Server ready for use.
 type ServerFactory func(config *config.Config) *server.Server
 
+//AppBuilder is a type that knows how to initialize and build everything required
+//for an App.
 type AppBuilder struct {
 	SQLRepoFactory
 
@@ -28,6 +36,7 @@ type AppBuilder struct {
 	ServerFactory
 }
 
+//NewAppBuilder returns a new AppBuilder with fields set to default values.
 func NewAppBuilder() *AppBuilder {
 	return &AppBuilder{
 		SQLRepoFactory: CreateSQLRepo,
@@ -37,6 +46,8 @@ func NewAppBuilder() *AppBuilder {
 	}
 }
 
+//Build uses config and its factory functions to build a new App.
+//If err is nil, the returned App is ready to Run.
 func (ab *AppBuilder) Build(config *config.Config) (app *App, err error) {
 	var sqlRepo *sqlrepo.Repo
 	var dbCloser io.Closer

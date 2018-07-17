@@ -11,6 +11,8 @@ const (
 	ConfigKeyServerPort = "server.port"
 )
 
+//CreateServer returns a new Server that listens on the port specified in c
+//at key ConfigKeyServerPort.
 func CreateServer(c *config.Config) *server.Server {
 	portStr := c.GetString(ConfigKeyServerPort)
 	port, _ := strconv.Atoi(portStr)

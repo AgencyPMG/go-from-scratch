@@ -7,6 +7,8 @@ import (
 	"github.com/AgencyPMG/go-from-scratch/app/internal/data/user"
 )
 
+//Users transforms a []*user.User to a []*UserOutput.
+//It delegates to User.
 func Users(v interface{}) interface{} {
 	users := v.([]*user.User)
 
@@ -18,6 +20,7 @@ func Users(v interface{}) interface{} {
 	return result
 }
 
+//User transforms a *user.User to a *UserOutput.
 func User(v interface{}) interface{} {
 	user := v.(*user.User)
 
@@ -36,6 +39,8 @@ func User(v interface{}) interface{} {
 	}
 }
 
+//UserOutput is a marshalable type that should be used to represent a User
+//outside of the API.
 type UserOutput struct {
 	Id        data.Id   `json:"id"`
 	Email     string    `json:"email"`
@@ -45,12 +50,16 @@ type UserOutput struct {
 	ClientIds []data.Id `json:"client_ids"`
 }
 
+//CreateUser is a form type that should be used for incoming create user requests
+//to the API.
 type CreateUser struct {
 	Email     string    `json:"email" valid:"required,email"`
 	Enabled   bool      `json:"enabled"`
 	ClientIds []data.Id `json"client_ids"`
 }
 
+//UpdateUser is a form type that should be used for incoming udpate user requests
+//to the API.
 type UpdateUser struct {
 	Email     *string    `json:"email" valid:"omitempty,email"`
 	Enabled   *bool      `json:"enabled"`

@@ -18,6 +18,10 @@ const (
 
 var sqlrepoDialect = sqlrepo.PostgresqlDialect{}
 
+//CreateSQLRepo returns a new sqlrepo.Repo and an io.Closer that will
+//close the connection to the database.
+//
+//It connects to a Postgresql database at the url specified in config at key ConfigKeyDatabaseURL.
 func CreateSQLRepo(config *config.Config) (*sqlrepo.Repo, io.Closer, error) {
 	db, err := sql.Open(
 		SQLDatasourceName,

@@ -5,6 +5,8 @@ import (
 	"github.com/gogolfing/cbus"
 )
 
+//CreateAPI returns a new api.API populated with bus and the query repositories
+//in repos.
 func CreateAPI(bus *cbus.Bus, repos *Repos) *api.API {
 	return &api.API{
 		Bus:     bus,
